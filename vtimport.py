@@ -1,6 +1,6 @@
 #!/bin/python
 
-#VT property transfer XML loader
+#VT property transfer XML loader git test
 
 from pymongo import MongoClient
 from lxml import etree
@@ -39,14 +39,20 @@ class VtMongoParser:
 
 
 parser = VtMongoParser()
-for filename in glob.glob("/Users/tcarr/proptrans/PT201401*.xml"):
+for filename in glob.glob("/Users/tcarr/proptrans/PT20141*.xml"):
 	parser.loadMongo(filename)
 
-results=parser.coll.find({"formData.buyerList.buyer.lastName": "HAYES"})
+#exit(1)
+
+#results=parser.coll.find({"formData.sellerList.seller.lastName": "CARR"})
+results=parser.coll.find({"$and": 
+	[{"formData.sellerList.seller.lastName": "CARR"},
+	 {"formData.sellerList.seller.firstName": "JUDY"}]})
 #results=parser.coll.collectionname.find({"lastName": "SMITH"})
 print results.count()
-for item in results:
-	print str(item)
+#for item in results:
+#	print str(item)
+
 #db.collectionname.aggregate([
 #    { "$project": { "name": { "$concat" : [ "formData.sellerList.seller.lastName", " ", "formData.sellerList.seller.firstName" ] } } },  
 #    { "$match" : { "name": /smith glori/i } }  
